@@ -28,16 +28,13 @@ check_dependency() {
     done
 }
 
-check_dependency "wget" "scraper" "7z"
+check_dependency "wget" "7z"
 
 # ^^^^^ boilerplate so far ^^^^^
 # vvvvv real code from now on vvvvv
 
 # extract upstream url for fonts
-upstream=$(wget -q -O - "https://developer.apple.com/fonts/" |
-    scraper "body p.tile-button a.button" | # yeah, rust whenever u can
-    grep 'Mono\|Pro' | # I don't need the other two: SF Compact and New York
-    scraper -a href "a")
+declare -a upstream=("https://devimages-cdn.apple.com/design/resources/download/SF-Font-Pro.dmg" "https://devimages-cdn.apple.com/design/resources/download/SF-Mono.dmg")
 
 # setup temp dir
 # https://unix.stackexchange.com/a/84980
@@ -47,7 +44,7 @@ cleanup() {
 }
 trap cleanup EXIT
 
-for dmg_url in $upstream; do
+for dmg_url in "${upstream[@]}"; do
     # download font dmg
     dmg_name=$(basename "$dmg_url")
     dmg_path="$get_sf_tmpdir/$dmg_name"
