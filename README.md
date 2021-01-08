@@ -1,6 +1,6 @@
 # Fix `fsSelection` for `SF Mono`, `SF Pro Text` and other fonts
 
-On Windows and Linux, intellij IDEA(and other jetbrains' products in general) query a field named `fsSlection` from font files to determine style of glyphs font files contain. Some font files may actually contain, say italic glyphs, but their `fsSlection` fields are set as if they contain regular glyphs, so if you happen to use such fonts with intellij IDEA on Windows and Linux, you will see italic glyphs where you are supposed to see regular glyphs. [Apple's SanFrancisco fonts is exactly in this case](https://youtrack.jetbrains.com/issue/JBR-806#focus=Comments-27-2890679.0-0).
+On Windows and Linux, intellij IDEA(and other jetbrains' products in general) query a field named `fsSlection` from font files to determine style of glyphs font files contain. Some font files may actually contain, say italic glyphs, but their `fsSlection` fields are set as if they contain regular glyphs, so if you happen to use such fonts with intellij IDEA on Windows and Linux, you will see italic glyphs where you are supposed to see regular glyphs. [Apple's SanFrancisco font is exactly this case](https://youtrack.jetbrains.com/issue/JBR-806#focus=Comments-27-2890679.0-0).
 
 So I rolled up some scripts to fix `SF Mono` and `SF Pro Text`'s `Regular`, `RegularItalic`, `Bold`, `BoldItalic`. There is also another more general script that can fix any fonts.
 
