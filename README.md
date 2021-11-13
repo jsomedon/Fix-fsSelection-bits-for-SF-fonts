@@ -20,7 +20,9 @@ Dependency:
 
 ### `fix_fsSelection.sh`
 
-This is the general one. Usage:
+You can use this script to fix `fsSelection` field for any fonts. That `patch_SF_Mono_SF_Pro_Text.sh` mentioned above also uses this to fix those fields. 
+
+Usage:
 
 ```shell
 ./fix_fsSelection.sh font_path font_style_bits
@@ -29,12 +31,29 @@ This is the general one. Usage:
 #                  for bold italic - 110
 #                  for regular - 001
 #                  for italic - 010
-#                  other style bits are invalid
-# example:
-# ./fix_fsSelection.sh ./MyItalicFont.otf 010
+#                  other bits are invalid, like 111 or 000 or whatnot
 ```
 
-Pretty straightforward.
+Example:
+
+```shell
+./fix_fsSelection.sh ./MyBoldFont.otf 100
+./fix_fsSelection.sh ./MyBoldItalicFont.otf 110
+./fix_fsSelection.sh ./MyRegularFont.otf 001
+./fix_fsSelection.sh ./MyItalicFont.otf 010
+```
+
+Some bad example:
+
+```shell
+./fix_fsSelection.sh ./MyBoldFont.otf 010
+# the font still contains glyphs of bold style
+# the command just marks this font as "containing glyphs of itatlic style"
+# so when your text editor is about to render itatlic glyph on UI
+# it would actually pick this font (and therefore render bold glyphs)
+```
+
+Pretty straightforward..?
 
 Dependency:
 
