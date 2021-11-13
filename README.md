@@ -16,7 +16,7 @@ Dependency:
 * `wget`
 * `7z`
 * `ttx` from `fonttools`
-* `xml` from `xmlStarlet`
+* `xmlstarlet` from `xmlStarlet`
 
 ### `fix_fsSelection.sh`
 
@@ -39,4 +39,4 @@ Pretty straightforward.
 Dependency:
 
 * `ttx` from `fonttools`
-* `xml` from `xmlStarlet`
+* `xmlstarlet` from `xmlStarlet`

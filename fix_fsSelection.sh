@@ -49,7 +49,7 @@ check_dependency() {
     done
 }
 
-check_dependency "ttx" "xml"
+check_dependency "ttx" "xmlstarlet"
 
 # ^^^^^ boilerplate so far ^^^^^
 # vvvvv real code from now on vvvvv
@@ -70,7 +70,7 @@ ttx="$ttx_tmpdir/${otf_basename%.*}.ttx"
 # compute correct bits for fsSelection and macStyle
 # fsSelection has bits for bolt, italic and regular, positioned as:
 # "00000000 0RB0000I" (R for regular, B for bold, I for italic)
-fsSelection=$(xml sel -t -v "ttFont/OS_2/fsSelection/@value" "$ttx" |
+fsSelection=$(xmlstarlet sel -t -v "ttFont/OS_2/fsSelection/@value" "$ttx" |
     tee >(sed "s/.*/[$otf_basename - fsSelection] Current bits are &\n/" >&2) |
     sed "s/./$bold_bit/12" |
     sed "s/./$italic_bit/17" |
@@ -78,19 +78,19 @@ fsSelection=$(xml sel -t -v "ttFont/OS_2/fsSelection/@value" "$ttx" |
     tee >(sed "s/.*/[$otf_basename - fsSelection] New bits are &\n/" >&2))
 # macStyle has bits for bold and italic, positioned as:
 # "00000000 000000IB" (I for italic, B for bold)
-macStyle=$(xml sel -t -v "ttFont/head/macStyle/@value" "$ttx" |
+macStyle=$(xmlstarlet sel -t -v "ttFont/head/macStyle/@value" "$ttx" |
     tee >(sed "s/.*/[$otf_basename - macStyle] Current bits are &\n/" >&2) |
     sed "s/./$bold_bit/17" |
     sed "s/./$italic_bit/16" |
     tee >(sed "s/.*/[$otf_basename - macStyle] New bits are &\n/" >&2))
 
 # update ttx
-xml ed -L -u "ttFont/OS_2/fsSelection/@value" -v "${fsSelection}" "$ttx" || exit_with_err "[ttx update] Failed to update fsSelection on $ttx"
-xml ed -L -u "ttFont/head/macStyle/@value" -v "${macStyle}" "$ttx" || exit_with_err "[ttx update] Failed to update macStyle on $ttx"
+xmlstarlet ed -L -u "ttFont/OS_2/fsSelection/@value" -v "${fsSelection}" "$ttx" || exit_with_err "[ttx update] Failed to update fsSelection on $ttx"
+xmlstarlet ed -L -u "ttFont/head/macStyle/@value" -v "${macStyle}" "$ttx" || exit_with_err "[ttx update] Failed to update macStyle on $ttx"
 
 # is it necessary to double check? maybe not? commenting out for now..
 : '
-if [ "$fsSelection" == "$(xml sel -t -v "ttFont/OS_2/fsSelection/@value" "$ttx")" ] && [ "$macStyle" == "$(xml sel -t -v "ttFont/head/macStyle/@value" "$ttx")" ]; then
+if [ "$fsSelection" == "$(xmlstarlet sel -t -v "ttFont/OS_2/fsSelection/@value" "$ttx")" ] && [ "$macStyle" == "$(xmlstarlet sel -t -v "ttFont/head/macStyle/@value" "$ttx")" ]; then
     echo "[ttx update verification] Verification succeeded" >&2
 else
     exit_with_err "[ttx update verification] Verification failed"
