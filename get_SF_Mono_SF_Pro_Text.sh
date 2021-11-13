@@ -34,7 +34,7 @@ check_dependency "wget" "7z"
 # vvvvv real code from now on vvvvv
 
 # extract upstream url for fonts
-declare -a upstream=("https://devimages-cdn.apple.com/design/resources/download/SF-Font-Pro.dmg" "https://devimages-cdn.apple.com/design/resources/download/SF-Mono.dmg")
+declare -a upstream=("https://devimages-cdn.apple.com/design/resources/download/SF-Pro.dmg" "https://devimages-cdn.apple.com/design/resources/download/SF-Mono.dmg")
 
 # setup temp dir
 # https://unix.stackexchange.com/a/84980
